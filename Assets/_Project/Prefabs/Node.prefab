@@ -132,7 +132,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10655d18e3389fb4e8b6537dc5e11ba0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Position: {x: 0, y: 0}
+  _inactiveMaterial: {fileID: 2100000, guid: 6bff513a8138ee641a014b7a8b35f107, type: 2}
+  _activeMaterial: {fileID: 2100000, guid: 2551f16b11627614f854189f0bd1f45b, type: 2}
+  _meshRenderer: {fileID: 1277312862354175157}
+  _borderImage: {fileID: 1277312860738645230}
+  _backLightImage: {fileID: 4529077274240055271}
+  _numberText: {fileID: 1277312861460138848}
 --- !u!1 &1277312860952602557
 GameObject:
   m_ObjectHideFlags: 0
@@ -246,7 +251,7 @@ GameObject:
   - component: {fileID: 1277312861460138849}
   - component: {fileID: 1277312861460138848}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Number_text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -327,8 +332,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.8
-  m_fontSizeBase: 0.8
+  m_fontSize: 0.72
+  m_fontSizeBase: 0.72
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -337,7 +342,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: -4
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0

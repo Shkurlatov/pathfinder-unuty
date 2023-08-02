@@ -16,20 +16,28 @@ namespace DijkstrasAlgorithm
 
         public bool CheckDistance(Vector2 position)
         {
+            bool canBeInstantiated = true;
+
             foreach (Node node in _nodes)
             {
                 if (Vector2.Distance(node.Position, position) < NODES_MIN_DISTANCE)
                 {
-                    return false;
+                    canBeInstantiated = false;
+                    node.ToggleBorder(true);
+
+                    continue;
                 }
+
+                node.ToggleBorder(false);
             }
 
-            return true;
+            return canBeInstantiated;
         }
 
         public void AddNode(Node node)
         {
             _nodes.Add(node);
+            node.Initialize(_nodes.Count);
         }
 
         public void Clear()

@@ -152,6 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52cd8a430253d544382bec8f1292cf51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _orangeMaterial: {fileID: 2100000, guid: 6bff513a8138ee641a014b7a8b35f107, type: 2}
+  _greenMaterial: {fileID: 2100000, guid: 2551f16b11627614f854189f0bd1f45b, type: 2}
 --- !u!4 &421472100
 Transform:
   m_ObjectHideFlags: 0
