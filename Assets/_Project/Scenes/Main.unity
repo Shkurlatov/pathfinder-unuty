@@ -178,7 +178,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Camera
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7295940795301537272, guid: ad46c86c7c1d2f541a7c5946d0adcec0, type: 3}
+    - {fileID: 7295940795301537273, guid: ad46c86c7c1d2f541a7c5946d0adcec0, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ad46c86c7c1d2f541a7c5946d0adcec0, type: 3}
 --- !u!1001 &858355468
 PrefabInstance:
@@ -201,7 +203,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3540383586799214556, guid: 5b09c49fe728d8b47a98d25db10aa3ae, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3540383586799214556, guid: 5b09c49fe728d8b47a98d25db10aa3ae, type: 3}
       propertyPath: m_LocalRotation.w
@@ -237,3 +239,48 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5b09c49fe728d8b47a98d25db10aa3ae, type: 3}
+--- !u!1 &1760037054
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1760037056}
+  - component: {fileID: 1760037055}
+  m_Layer: 0
+  m_Name: DrawManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1760037055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1760037054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc0605ed85d7ddd419eb851ec27013da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _edgePrefab: {fileID: -3833995588864658287, guid: e465be563be83d947b1a070b298fa1e7, type: 3}
+--- !u!4 &1760037056
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1760037054}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
