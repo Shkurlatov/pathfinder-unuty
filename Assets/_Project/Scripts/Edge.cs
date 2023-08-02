@@ -1,11 +1,14 @@
 using UnityEngine;
 
-public class Edge : MonoBehaviour
+namespace DijkstrasAlgorithm
 {
-    [SerializeField] private LineRenderer _renderer;
-
-    public void SetPosition(Vector2 position, int point)
+    public class Edge : MonoBehaviour
     {
-        _renderer.SetPosition(point, position);
+        [SerializeField] private LineRenderer _renderer;
+
+        public void SetPosition(Vector2 position, int point)
+        {
+            _renderer.SetPosition(point, position);
+        }
     }
 }

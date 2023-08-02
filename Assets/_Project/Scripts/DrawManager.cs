@@ -1,31 +1,56 @@
 using UnityEngine;
 
-public class DrawManager : MonoBehaviour
+namespace DijkstrasAlgorithm
 {
-    [SerializeField] private Edge _edgePrefab;
-
-    private Camera _camera;
-
-    private Edge _currentEdge;
-
-    private void Start()
+    public class DrawManager : MonoBehaviour
     {
-        _camera = Camera.main;
-    }
+        [SerializeField] private NodesHandler _nodesHandler;
 
-    private void Update()
-    {
-        Vector2 mousePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
+        [SerializeField] private Node _nodePrefab;
+        [SerializeField] private Edge _edgePrefab;
 
-        if (Input.GetMouseButtonDown(0))
+        private Camera _camera;
+
+        private Vector2 _clickPosition;
+        private Edge _currentEdge;
+
+        private void Start()
         {
-            _currentEdge = Instantiate(_edgePrefab, mousePosition, Quaternion.identity);
-            _currentEdge.SetPosition(mousePosition, 0);
+            _camera = Camera.main;
         }
 
-        if (Input.GetMouseButton(0))
+        private void Update()
         {
-            _currentEdge.SetPosition(mousePosition, 1);
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                _clickPosition = _camera.ScreenToWorldPoint(Input.mousePosition);
+            }
+
+            if (Input.GetMouseButtonUp(0))
+            {
+                Vector2 releasePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
+
+                if (releasePosition == _clickPosition)
+                {
+                    if (_nodesHandler.CheckDistance(_clickPosition))
+                    {
+                        Node node = Instantiate(_nodePrefab, _clickPosition, Quaternion.identity);
+                        _nodesHandler.AddNode(node);
+                    }
+                }
+            }
+
+            //if (Input.GetMouseButtonDown(0))
+            //{
+            //    _currentEdge = Instantiate(_edgePrefab, mousePosition, Quaternion.identity);
+            //    _currentEdge.SetPosition(mousePosition, 0);
+            //}
+
+            //if (Input.GetMouseButton(0))
+            //{
+            //    _currentEdge.SetPosition(mousePosition, 1);
+            //}
         }
     }
 }
