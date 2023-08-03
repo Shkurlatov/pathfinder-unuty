@@ -2,28 +2,29 @@ using UnityEngine;
 
 namespace DijkstrasAlgorithm
 {
-    public class DrawManager : MonoBehaviour
+    public class DrawManager
     {
-        private const float CLICK_HOLD_TIME = 0.5f;
+        private const float CLICK_HOLD_TIME = 0.2f;
 
-        [SerializeField] private NodesHandler _nodesHandler;
+        private readonly NodesHandler _nodesHandler;
+        private readonly EdgesHandler _edgesHandler;
 
-        [SerializeField] private Node _nodePrefab;
-        [SerializeField] private Edge _edgePrefab;
-
-        private Camera _camera;
+        private readonly Camera _camera;
 
         private float _clickTimer;
         private Vector2 _clickPosition;
         private Node _currentNode;
         private Edge _currentEdge;
 
-        private void Start()
+        public DrawManager(NodesHandler nodesHandler, EdgesHandler edgesHandler)
         {
+            _nodesHandler = nodesHandler;
+            _edgesHandler = edgesHandler;
+
             _camera = Camera.main;
         }
 
-        private void Update()
+        public void Update()
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -89,8 +90,7 @@ namespace DijkstrasAlgorithm
                 return;
             }
 
-            Node node = Instantiate(_nodePrefab, _clickPosition, Quaternion.identity);
-            _nodesHandler.AddNode(node);
+            _nodesHandler.InstantiateNode(_clickPosition);
 
             return;
         }
@@ -101,14 +101,14 @@ namespace DijkstrasAlgorithm
             {
                 if (!_currentNode.Connections.Contains(nearNode))
                 {
-                    _currentEdge.SetPosition(nearNode.Position, 1);
+                    _edgesHandler.CompleteEdge(_currentEdge, nearNode);
                     _nodesHandler.ConnectNodes(_currentNode, nearNode);
 
                     return;
                 }
             }
 
-            Destroy(_currentEdge.gameObject);
+            _currentEdge.Destroy();
 
             return;
         }
@@ -117,8 +117,7 @@ namespace DijkstrasAlgorithm
         {
             if (_currentEdge == null)
             {
-                _currentEdge = Instantiate(_edgePrefab, _clickPosition, Quaternion.identity);
-                _currentEdge.SetPosition(_currentNode.Position, 0);
+                _currentEdge = _edgesHandler.InstantiateEdge(_currentNode);
             }
 
             _currentEdge.SetPosition(_camera.ScreenToWorldPoint(Input.mousePosition), 1);

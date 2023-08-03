@@ -79,5 +79,10 @@ namespace DijkstrasAlgorithm
         {
             _backLightImage.color = Color.white;
         }
+
+        public void Destroy()
+        {
+            Destroy(gameObject);
+        }
     }
 }

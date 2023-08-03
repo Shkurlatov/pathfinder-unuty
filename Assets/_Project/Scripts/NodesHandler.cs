@@ -3,14 +3,16 @@ using UnityEngine;
 
 namespace DijkstrasAlgorithm
 {
-    public class NodesHandler : MonoBehaviour
+    public class NodesHandler
     {
         private const float NODES_MIN_DISTANCE = 2.0f;
 
-        private List<Node> _nodes;
+        private readonly Node _nodePrefab;
+        private readonly List<Node> _nodes;
 
-        private void Awake()
+        public NodesHandler(Node nodePrefab)
         {
+            _nodePrefab = nodePrefab;
             _nodes = new List<Node>();
         }
 
@@ -33,10 +35,12 @@ namespace DijkstrasAlgorithm
             return nearNode;
         }
 
-        public void AddNode(Node node)
+        public void InstantiateNode(Vector2 clickPosition)
         {
+            Node node = Object.Instantiate(_nodePrefab, clickPosition, Quaternion.identity);
+            node.Initialize(_nodes.Count + 1);
+
             _nodes.Add(node);
-            node.Initialize(_nodes.Count);
         }
 
         public void ConnectNodes(Node firstNode, Node secondNode)
@@ -49,7 +53,7 @@ namespace DijkstrasAlgorithm
         {
             foreach (Node node in _nodes)
             {
-                Destroy(node.gameObject);
+                node.Destroy();
             }
 
             _nodes.Clear();
