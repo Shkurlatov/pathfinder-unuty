@@ -57,17 +57,30 @@ namespace DijkstrasAlgorithm
         {
             _state = State.Build;
 
-            //_nodes = _nodesHandler.GetNodes();
-            //_graph = new float[_nodes.Length, _nodes.Length];
+            _nodes = _nodesHandler.GetNodes();
+            _graph = new float[_nodes.Length, _nodes.Length];
 
-            //for (int i = 0; i < _nodes.Length; i++)
-            //{
-            //    for (int j = 0; j < _nodes.Length; j++)
-            //    {
-            //        if (_nodes[i].Number == _nodes[j].Number)
-            //        { }
-            //    }
-            //}
+            FillGraph();
+
+            _state = State.FindPath;
+        }
+
+        private void FillGraph()
+        {
+            for (int i = 0; i < _nodes.Length; i++)
+            {
+                for (int j = 0; j < _nodes.Length; j++)
+                {
+                    if (_nodes[i].Connections.Contains(_nodes[j]))
+                    {
+                        _graph[i, j] = Vector2.Distance(_nodes[i].Position, _nodes[j].Position);
+
+                        continue;
+                    }
+
+                    _graph[i, j] = 0.0f;
+                }
+            }
         }
     }
 
