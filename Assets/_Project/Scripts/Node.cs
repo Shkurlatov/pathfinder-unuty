@@ -14,6 +14,9 @@ namespace DijkstrasAlgorithm
         [SerializeField] private SpriteRenderer _backLightImage;
         [SerializeField] private TextMeshProUGUI _numberText;
 
+        [SerializeField] private Color _darkColor;
+        [SerializeField] private Color _lightColor;
+
         public Vector2 Position { get; private set; }
         public List<Node> Connections { get; private set; }
         public int Number { get; private set; }

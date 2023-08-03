@@ -26,7 +26,8 @@ namespace DijkstrasAlgorithm
         public void CompleteEdge(Edge edge, Node endNode)
         {
             edge.SetPosition(endNode.Position, 1);
-            edge.StartNode = endNode;
+            edge.EndNode = endNode;
+            edge.SetDistance();
 
             _edges.Add(edge);
         }
