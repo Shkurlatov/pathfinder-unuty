@@ -10,10 +10,11 @@ namespace DijkstrasAlgorithm
 
         private State _state;
 
+        private UIRoot _uiRoot;
         private NodesHandler _nodesHandler;
         private EdgesHandler _edgesHandler;
         private DrawManager _drawManager;
-        private UIRoot _uiRoot;
+        private Pathfinder _pathfinder;
 
         private Node[] _nodes;
         private float[,] _graph;
@@ -31,6 +32,7 @@ namespace DijkstrasAlgorithm
             _nodesHandler = new NodesHandler(_nodePrefab, _uiRoot);
             _edgesHandler = new EdgesHandler(_edgePrefab);
             _drawManager = new DrawManager(_nodesHandler, _edgesHandler);
+            _pathfinder = new Pathfinder(_nodesHandler, _edgesHandler);
 
             _state = State.Draw;
         }
@@ -40,6 +42,11 @@ namespace DijkstrasAlgorithm
             if (_state == State.Draw)
             {
                 _drawManager.Update();
+            }
+
+            if (_state == State.FindPath)
+            {
+                _pathfinder.Update();
             }
         }
 
@@ -57,16 +64,18 @@ namespace DijkstrasAlgorithm
         {
             _state = State.Build;
 
-            _nodes = _nodesHandler.GetNodes();
-            _graph = new float[_nodes.Length, _nodes.Length];
-
             FillGraph();
+
+            _pathfinder.SetGraph(_graph);
 
             _state = State.FindPath;
         }
 
         private void FillGraph()
         {
+            _nodes = _nodesHandler.GetNodes();
+            _graph = new float[_nodes.Length, _nodes.Length];
+
             for (int i = 0; i < _nodes.Length; i++)
             {
                 for (int j = 0; j < _nodes.Length; j++)

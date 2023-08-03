@@ -21,6 +21,7 @@ namespace DijkstrasAlgorithm
         public List<Node> Connections { get; private set; }
         public int Number { get; private set; }
         public bool IsActive { get; private set; }
+        public bool IsPicked { get; private set; }
 
         private void Awake()
         {
@@ -80,7 +81,16 @@ namespace DijkstrasAlgorithm
 
         public void Pick()
         {
-            _backLightImage.color = Color.white;
+            IsPicked = true;
+
+            _backLightImage.color = _lightColor;
+        }
+
+        public void Skip()
+        {
+            IsPicked = false;
+
+            _backLightImage.color = _darkColor;
         }
 
         public void Destroy()

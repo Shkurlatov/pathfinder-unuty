@@ -6,6 +6,7 @@ namespace DijkstrasAlgorithm
     public class DrawManager
     {
         private const float CLICK_HOLD_TIME = 0.2f;
+        private const string BUTTON_TAG = "Button";
 
         private readonly NodesHandler _nodesHandler;
         private readonly EdgesHandler _edgesHandler;
@@ -76,7 +77,7 @@ namespace DijkstrasAlgorithm
         {
             GameObject current = EventSystem.current.currentSelectedGameObject;
 
-            if (current != null && current.CompareTag("Button"))
+            if (current != null && current.CompareTag(BUTTON_TAG))
             {
                 return true;
             }
@@ -86,15 +87,7 @@ namespace DijkstrasAlgorithm
 
         private void OnClickDown()
         {
-            _clickTimer = 0.0f;
-
-            if (_currentNode != null)
-            {
-                _currentNode.ToggleBorder(false);
-                _currentNode = null;
-            }
-
-            _currentEdge = null;
+            Reset();
 
             _clickPosition = _camera.ScreenToWorldPoint(Input.mousePosition);
             _currentNode = _nodesHandler.FindNearNode(_clickPosition);
@@ -145,10 +138,15 @@ namespace DijkstrasAlgorithm
 
         private void Reset()
         {
+            if (_currentNode != null)
+            {
+                _currentNode.ToggleBorder(false);
+            }
+
             _currentNode = null;
             _currentEdge = null;
             _clickPosition = Vector2.zero;
-            _clickTimer = 0;
+            _clickTimer = 0.0f;
         }
     }
 }

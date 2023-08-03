@@ -63,6 +63,14 @@ namespace DijkstrasAlgorithm
             return _nodes.ToArray();
         }
 
+        public void SkipNodes()
+        {
+            foreach (Node node in _nodes)
+            {
+                node.Skip();
+            }
+        }
+
         public void Clear()
         {
             foreach (Node node in _nodes)
