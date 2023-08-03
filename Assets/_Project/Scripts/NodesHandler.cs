@@ -14,24 +14,23 @@ namespace DijkstrasAlgorithm
             _nodes = new List<Node>();
         }
 
-        public bool CheckDistance(Vector2 position)
+        public Node FindNearNode(Vector2 position)
         {
-            bool canBeInstantiated = true;
+            Node nearNode = null;
+            float minDistance = NODES_MIN_DISTANCE;
 
             foreach (Node node in _nodes)
             {
-                if (Vector2.Distance(node.Position, position) < NODES_MIN_DISTANCE)
+                float distance = Vector2.Distance(node.Position, position);
+
+                if (distance < minDistance)
                 {
-                    canBeInstantiated = false;
-                    node.ToggleBorder(true);
-
-                    continue;
+                    nearNode = node;
+                    minDistance = distance;
                 }
-
-                node.ToggleBorder(false);
             }
 
-            return canBeInstantiated;
+            return nearNode;
         }
 
         public void AddNode(Node node)
@@ -40,8 +39,19 @@ namespace DijkstrasAlgorithm
             node.Initialize(_nodes.Count);
         }
 
+        public void ConnectNodes(Node firstNode, Node secondNode)
+        {
+            firstNode.Connect(secondNode);
+            secondNode.Connect(firstNode);
+        }
+
         public void Clear()
         {
+            foreach (Node node in _nodes)
+            {
+                Destroy(node.gameObject);
+            }
+
             _nodes.Clear();
         }
     }

@@ -19,10 +19,14 @@ namespace DijkstrasAlgorithm
         public int Number { get; private set; }
         public bool IsActive { get; private set; }
 
+        private void Awake()
+        {
+            Connections = new List<Node>();
+        }
+
         private void Start()
         {
             Position = transform.position;
-            Connections = new List<Node>();
         }
 
         public void Initialize(int number)
@@ -33,6 +37,27 @@ namespace DijkstrasAlgorithm
             _meshRenderer.material = _inactiveMaterial;
             _borderImage.enabled = false;
             _numberText.text = number.ToString();
+
+            if (number == 1)
+            {
+                Activate();
+            }
+        }
+
+        public void Activate()
+        {
+            if (IsActive)
+            {
+                return;
+            }
+
+            IsActive = true;
+            _meshRenderer.material = _activeMaterial;
+
+            foreach (Node connection in Connections)
+            {
+                connection.Activate();
+            }
         }
 
         public void ToggleBorder(bool isActive)
@@ -40,11 +65,14 @@ namespace DijkstrasAlgorithm
             _borderImage.enabled = isActive;
         }
 
-        public void Activate()
+        public void Connect(Node connection)
         {
-            IsActive = true;
+            Connections.Add(connection);
 
-            _meshRenderer.material = _activeMaterial;
+            if (IsActive)
+            {
+                connection.Activate();
+            }
         }
 
         public void Pick()
