@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace DijkstrasAlgorithm
 {
@@ -26,6 +27,13 @@ namespace DijkstrasAlgorithm
 
         public void Update()
         {
+            if (AboveButton())
+            {
+                Reset();
+
+                return;
+            }
+
             if (Input.GetMouseButtonDown(0))
             {
                 OnClickDown();
@@ -62,6 +70,18 @@ namespace DijkstrasAlgorithm
 
                 DrawEdge();
             }
+        }
+
+        private bool AboveButton()
+        {
+            GameObject current = EventSystem.current.currentSelectedGameObject;
+
+            if (current != null && current.CompareTag("Button"))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private void OnClickDown()
@@ -121,6 +141,14 @@ namespace DijkstrasAlgorithm
             }
 
             _currentEdge.SetPosition(_camera.ScreenToWorldPoint(Input.mousePosition), 1);
+        }
+
+        private void Reset()
+        {
+            _currentNode = null;
+            _currentEdge = null;
+            _clickPosition = Vector2.zero;
+            _clickTimer = 0;
         }
     }
 }

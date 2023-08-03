@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Node
   - Edge
+  - Button
   layers:
   - Default
   - TransparentFX
