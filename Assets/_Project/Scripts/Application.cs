@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 namespace DijkstrasAlgorithm
 {
@@ -27,48 +29,94 @@ namespace DijkstrasAlgorithm
         private void Start()
         {
             _uiRoot = Instantiate(_uiRootPrefab);
-            _uiRoot.Initialize(Restart, BuildGraph);
+            _uiRoot.Initialize(OnRestartPressed, OnBuildGraphPressed);
 
             _nodesHandler = new NodesHandler(_nodePrefab, _uiRoot);
             _edgesHandler = new EdgesHandler(_edgePrefab);
-            _drawManager = new DrawManager(_nodesHandler, _edgesHandler);
+            _drawManager = new DrawManager(_nodesHandler, _edgesHandler, OnDrawInputComplete);
             _pathfinder = new Pathfinder(_nodesHandler, _edgesHandler);
 
-            _state = State.Draw;
+            _state = State.ConstructGraph;
         }
 
         private void Update()
         {
+            if (Mouse.current.leftButton.wasPressedThisFrame)
+            {
+                ProcessInput();
+            }
+
             if (_state == State.Draw)
             {
                 _drawManager.Update();
             }
 
-            if (_state == State.FindPath)
+            //if (_state == State.FindPath)
+            //{
+            //    _pathfinder.Update();
+            //}
+
+            //if (_state == State.Draw)
+            //{
+            //    if (Mouse.current.leftButton.wasPressedThisFrame)
+            //    {
+            //        if (EventSystem.current.IsPointerOverGameObject())
+            //        {
+            //            Debug.Log("UI");
+
+            //            return;
+            //        }
+
+            //        Debug.Log("Free space");
+            //    }
+            //    //_drawManager.Update();
+            //}
+
+            //if (_state == State.FindPath)
+            //{
+            //    //_pathfinder.Update();
+            //}
+        }
+
+        private void ProcessInput()
+        {
+            if (EventSystem.current.IsPointerOverGameObject())
             {
-                _pathfinder.Update();
+                Debug.Log("UI");
+
+                return;
+            }
+
+            if (_state == State.ConstructGraph)
+            {
+                _state = State.Draw;
             }
         }
 
-        public void Restart()
+        private void OnDrawInputComplete()
         {
-            _state = State.Restart;
-
-            _edgesHandler.Clear();
-            _nodesHandler.Clear();
-
-            _state = State.Draw;
+            _state = State.ConstructGraph;
         }
 
-        public void BuildGraph()
+        private void OnRestartPressed()
         {
-            _state = State.Build;
+            //_state = State.Restart;
 
-            FillGraph();
+            //_edgesHandler.Clear();
+            //_nodesHandler.Clear();
 
-            _pathfinder.SetGraph(_graph);
+            //_state = State.Draw;
+        }
 
-            _state = State.FindPath;
+        private void OnBuildGraphPressed()
+        {
+            //_state = State.BuildGraph;
+
+            //FillGraph();
+
+            //_pathfinder.SetGraph(_graph);
+
+            //_state = State.FindPath;
         }
 
         private void FillGraph()
@@ -91,14 +139,16 @@ namespace DijkstrasAlgorithm
                 }
             }
         }
-    }
 
-    public enum State
-    {
-        Init,
-        Draw,
-        Build,
-        FindPath,
-        Restart
+        private enum State
+        {
+            Init = 0,
+            ConstructGraph = 1,
+            Draw = 2,
+            BuildGraph = 3,
+            ChoosePoints = 4,
+            FindPath = 5,
+            Restart = 6,
+        }
     }
 }

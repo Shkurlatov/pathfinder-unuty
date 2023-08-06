@@ -1,115 +1,83 @@
+using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 namespace DijkstrasAlgorithm
 {
     public class DrawManager
     {
-        private const float CLICK_HOLD_TIME = 0.2f;
-        private const string BUTTON_TAG = "Button";
-
         private readonly NodesHandler _nodesHandler;
         private readonly EdgesHandler _edgesHandler;
+        private readonly Action _onDrawInputComplete;
 
         private readonly Camera _camera;
 
-        private float _clickTimer;
         private Vector2 _clickPosition;
         private Node _currentNode;
         private Edge _currentEdge;
 
-        public DrawManager(NodesHandler nodesHandler, EdgesHandler edgesHandler)
+        public DrawManager(NodesHandler nodesHandler, EdgesHandler edgesHandler, Action onDrawInputComplete)
         {
             _nodesHandler = nodesHandler;
             _edgesHandler = edgesHandler;
+            _onDrawInputComplete = onDrawInputComplete;
 
             _camera = Camera.main;
         }
 
         public void Update()
         {
-            if (AboveButton())
+            if (Mouse.current.leftButton.wasPressedThisFrame)
             {
-                Reset();
-
-                return;
+                LaunchDrawInput();
             }
 
-            if (Input.GetMouseButtonDown(0))
+            if (_currentEdge != null)
             {
-                OnClickDown();
+                RedrawEdge();
             }
 
-            if (Input.GetMouseButtonUp(0))
+            if (Mouse.current.leftButton.wasReleasedThisFrame)
             {
-                Vector2 releasePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
-                Node nearNode = _nodesHandler.FindNearNode(releasePosition);
-
-                if (_clickTimer < CLICK_HOLD_TIME)
-                {
-                    TryInstantiateNewNode(nearNode);
-
-                    return;
-                }
-
-                if (_currentEdge != null)
-                {
-                    TryConnectNode(nearNode);
-
-                    return;
-                }
-            }
-
-            if (Input.GetMouseButton(0))
-            {
-                _clickTimer += Time.deltaTime;
-
-                if (_currentNode == null || _clickTimer < CLICK_HOLD_TIME)
-                {
-                    return;
-                }
-
-                DrawEdge();
+                CompleteDrawInput();
             }
         }
 
-        private bool AboveButton()
+        private void LaunchDrawInput()
         {
-            GameObject current = EventSystem.current.currentSelectedGameObject;
-
-            if (current != null && current.CompareTag(BUTTON_TAG))
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        private void OnClickDown()
-        {
-            Reset();
-
-            _clickPosition = _camera.ScreenToWorldPoint(Input.mousePosition);
+            _clickPosition = _camera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
             _currentNode = _nodesHandler.FindNearNode(_clickPosition);
-        }
+            _currentEdge = null;
 
-        private void TryInstantiateNewNode(Node nearNode)
-        {
-            if (nearNode != null)
+            if (_currentNode == null)
             {
-                nearNode.ToggleBorder(true);
-                _currentNode = nearNode;
+                _nodesHandler.InstantiateNode(_clickPosition);
 
                 return;
             }
 
-            _nodesHandler.InstantiateNode(_clickPosition);
-
-            return;
+            _currentEdge = _edgesHandler.InstantiateEdge(_currentNode);
         }
 
-        private void TryConnectNode(Node nearNode)
+        private void RedrawEdge()
         {
+            _currentEdge.SetPosition(_camera.ScreenToWorldPoint(Mouse.current.position.ReadValue()), 1);
+        }
+
+        private void CompleteDrawInput()
+        {
+            if (_currentEdge != null)
+            {
+                TryConnectNode();
+            }
+
+            _onDrawInputComplete.Invoke();
+        }
+
+        private void TryConnectNode()
+        {
+            Node nearNode = _nodesHandler.FindNearNode(_camera.ScreenToWorldPoint(Mouse.current.position.ReadValue()));
+
             if (nearNode != null && nearNode != _currentNode)
             {
                 if (!_currentNode.Connections.Contains(nearNode))
@@ -124,29 +92,6 @@ namespace DijkstrasAlgorithm
             _currentEdge.Destroy();
 
             return;
-        }
-
-        private void DrawEdge()
-        {
-            if (_currentEdge == null)
-            {
-                _currentEdge = _edgesHandler.InstantiateEdge(_currentNode);
-            }
-
-            _currentEdge.SetPosition(_camera.ScreenToWorldPoint(Input.mousePosition), 1);
-        }
-
-        private void Reset()
-        {
-            if (_currentNode != null)
-            {
-                _currentNode.ToggleBorder(false);
-            }
-
-            _currentNode = null;
-            _currentEdge = null;
-            _clickPosition = Vector2.zero;
-            _clickTimer = 0.0f;
         }
     }
 }

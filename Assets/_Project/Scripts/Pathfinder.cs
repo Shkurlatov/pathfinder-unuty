@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace DijkstrasAlgorithm
 {
@@ -40,60 +39,60 @@ namespace DijkstrasAlgorithm
 
         public void Update()
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                if (AboveButton())
-                {
-                    return;
-                }
+            //    if (Input.GetMouseButtonDown(0))
+            //    {
+            //        if (AboveButton())
+            //        {
+            //            return;
+            //        }
 
-                if (_isComplete)
-                {
-                    _nodesHandler.SkipNodes();
-                    _edgesHandler.SkipEdges();
+            //        if (_isComplete)
+            //        {
+            //            _nodesHandler.SkipNodes();
+            //            _edgesHandler.SkipEdges();
 
-                    _isComplete = false;
-                    _sourceNode = null;
-                    _destinationNode = null;
-                }
+            //            _isComplete = false;
+            //            _sourceNode = null;
+            //            _destinationNode = null;
+            //        }
 
-                Vector2 releasePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
-                Node nearNode = _nodesHandler.FindNearNode(releasePosition);
+            //        Vector2 releasePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
+            //        Node nearNode = _nodesHandler.FindNearNode(releasePosition);
 
-                if (nearNode != null)
-                {
-                    if (_sourceNode == null)
-                    {
-                        _sourceNode = nearNode;
-                        _sourceNode.Pick();
+            //        if (nearNode != null)
+            //        {
+            //            if (_sourceNode == null)
+            //            {
+            //                _sourceNode = nearNode;
+            //                _sourceNode.Pick();
 
-                        return;
-                    }
+            //                return;
+            //            }
 
-                    if (_sourceNode != nearNode)
-                    {
-                        _destinationNode = nearNode;
-                        _destinationNode.Pick();
+            //            if (_sourceNode != nearNode)
+            //            {
+            //                _destinationNode = nearNode;
+            //                _destinationNode.Pick();
 
-                        _isComplete = true;
+            //                _isComplete = true;
 
-                        FindPath();
-                    }
-                }
-            }
+            //                FindPath();
+            //            }
+            //        }
+            //    }
         }
 
-        private bool AboveButton()
-        {
-            GameObject current = EventSystem.current.currentSelectedGameObject;
+        //private bool AboveButton()
+        //{
+        //    GameObject current = EventSystem.current.currentSelectedGameObject;
 
-            if (current != null && current.CompareTag(BUTTON_TAG))
-            {
-                return true;
-            }
+        //    if (current != null && current.CompareTag(BUTTON_TAG))
+        //    {
+        //        return true;
+        //    }
 
-            return false;
-        }
+        //    return false;
+        //}
 
         public void FindPath()
         {

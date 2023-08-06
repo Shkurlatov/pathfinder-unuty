@@ -18,7 +18,7 @@ public class UIRoot : MonoBehaviour
         _resetButton.GetComponent<Button>().onClick.AddListener(Restart);
         _buildGraphButton.GetComponent<Button>().onClick.AddListener(BuildGraph);
 
-        HideButtons();
+        //HideButtons();
     }
 
     public void Initialize(Action reset, Action buildGraph)
