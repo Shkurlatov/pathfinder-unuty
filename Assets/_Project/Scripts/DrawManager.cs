@@ -1,33 +1,30 @@
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace DijkstrasAlgorithm
 {
     public class DrawManager
     {
+        private readonly IInput _input;
         private readonly NodesHandler _nodesHandler;
         private readonly EdgesHandler _edgesHandler;
         private readonly Action _onDrawInputComplete;
-
-        private readonly Camera _camera;
 
         private Vector2 _clickPosition;
         private Node _currentNode;
         private Edge _currentEdge;
 
-        public DrawManager(NodesHandler nodesHandler, EdgesHandler edgesHandler, Action onDrawInputComplete)
+        public DrawManager(IInput input, NodesHandler nodesHandler, EdgesHandler edgesHandler, Action onDrawInputComplete)
         {
+            _input = input;
             _nodesHandler = nodesHandler;
             _edgesHandler = edgesHandler;
             _onDrawInputComplete = onDrawInputComplete;
-
-            _camera = Camera.main;
         }
 
         public void Update()
         {
-            if (Mouse.current.leftButton.wasPressedThisFrame)
+            if (_input.ButtonWasPressed())
             {
                 LaunchDrawInput();
             }
@@ -37,7 +34,7 @@ namespace DijkstrasAlgorithm
                 RedrawEdge();
             }
 
-            if (Mouse.current.leftButton.wasReleasedThisFrame)
+            if (_input.ButtonWasReleased())
             {
                 CompleteDrawInput();
             }
@@ -45,7 +42,7 @@ namespace DijkstrasAlgorithm
 
         private void LaunchDrawInput()
         {
-            _clickPosition = _camera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+            _clickPosition = _input.PointerPosition();
             _currentNode = _nodesHandler.FindNearNode(_clickPosition);
             _currentEdge = null;
 
@@ -61,7 +58,7 @@ namespace DijkstrasAlgorithm
 
         private void RedrawEdge()
         {
-            _currentEdge.SetPosition(_camera.ScreenToWorldPoint(Mouse.current.position.ReadValue()), 1);
+            _currentEdge.SetPosition(_input.PointerPosition(), 1);
         }
 
         private void CompleteDrawInput()
@@ -76,7 +73,7 @@ namespace DijkstrasAlgorithm
 
         private void TryConnectNode()
         {
-            Node nearNode = _nodesHandler.FindNearNode(_camera.ScreenToWorldPoint(Mouse.current.position.ReadValue()));
+            Node nearNode = _nodesHandler.FindNearNode(_input.PointerPosition());
 
             if (nearNode != null && nearNode != _currentNode)
             {

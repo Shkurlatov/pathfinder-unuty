@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 
 namespace DijkstrasAlgorithm
 {
@@ -12,6 +10,7 @@ namespace DijkstrasAlgorithm
 
         private State _state;
 
+        private IInput _input;
         private UIRoot _uiRoot;
         private NodesHandler _nodesHandler;
         private EdgesHandler _edgesHandler;
@@ -31,9 +30,10 @@ namespace DijkstrasAlgorithm
             _uiRoot = Instantiate(_uiRootPrefab);
             _uiRoot.Initialize(OnRestartPressed, OnBuildGraphPressed);
 
+            _input = new Input();
             _nodesHandler = new NodesHandler(_nodePrefab, _uiRoot);
             _edgesHandler = new EdgesHandler(_edgePrefab);
-            _drawManager = new DrawManager(_nodesHandler, _edgesHandler, OnDrawInputComplete);
+            _drawManager = new DrawManager(_input, _nodesHandler, _edgesHandler, OnDrawInputComplete);
             _pathfinder = new Pathfinder(_nodesHandler, _edgesHandler);
 
             _state = State.ConstructGraph;
@@ -41,7 +41,7 @@ namespace DijkstrasAlgorithm
 
         private void Update()
         {
-            if (Mouse.current.leftButton.wasPressedThisFrame)
+            if (_input.ButtonWasPressed())
             {
                 ProcessInput();
             }
@@ -80,7 +80,7 @@ namespace DijkstrasAlgorithm
 
         private void ProcessInput()
         {
-            if (EventSystem.current.IsPointerOverGameObject())
+            if (_input.IsPointerOverUI())
             {
                 Debug.Log("UI");
 
