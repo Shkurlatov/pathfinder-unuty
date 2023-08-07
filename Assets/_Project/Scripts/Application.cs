@@ -8,6 +8,9 @@ namespace GraphPathfinder
         [SerializeField] private Node _nodePrefab;
         [SerializeField] private Edge _edgePrefab;
 
+        [SerializeField] private Material _blueSkybox;
+        [SerializeField] private Material _orangeSkybox;
+
         private State _state;
 
         private UIRoot _uiRoot;
@@ -94,6 +97,8 @@ namespace GraphPathfinder
             _edgesHandler.Clear();
             _nodesHandler.Clear();
 
+            RenderSettings.skybox = _blueSkybox;
+
             _state = State.ConstructGraph;
         }
 
@@ -102,6 +107,8 @@ namespace GraphPathfinder
             _state = State.BuildGraph;
 
             _pathfinder.SetNewGraph(GraphBuilder.BuildGraph(_nodesHandler.Nodes));
+
+            RenderSettings.skybox = _orangeSkybox;
 
             _state = State.ChooseNodes;
         }
