@@ -31,7 +31,7 @@ namespace GraphPathfinder
             _nodesHandler = new NodesHandler(_nodePrefab, _uiRoot);
             _edgesHandler = new EdgesHandler(_edgePrefab);
             _drawManager = new DrawManager(_input, _nodesHandler, _edgesHandler, OnDrawInputComplete);
-            _pathfinder = new Pathfinder(_nodesHandler, _edgesHandler, new DijkstraAlgorithm());
+            _pathfinder = new Pathfinder(_nodesHandler, new DijkstraAlgorithm());
 
             _state = State.ConstructGraph;
         }

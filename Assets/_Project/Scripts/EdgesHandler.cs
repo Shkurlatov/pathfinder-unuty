@@ -25,30 +25,9 @@ namespace GraphPathfinder
 
         public void CompleteEdge(Edge edge, Node endNode)
         {
-            //edge.SetPosition(endNode.Position, 1);
-            //edge.EndNode = endNode;
             edge.Complete(endNode);
 
             _edges.Add(edge);
-        }
-
-        public void PickEdges()
-        {
-            foreach (Edge edge in _edges)
-            {
-                if (edge.StartNode.IsPicked && edge.EndNode.IsPicked)
-                {
-                    edge.ToggleLight(true);
-                }
-            }
-        }
-
-        public void SkipEdges()
-        {
-            foreach (Edge edge in _edges)
-            {
-                edge.ToggleLight(false);
-            }
         }
 
         public void Clear()

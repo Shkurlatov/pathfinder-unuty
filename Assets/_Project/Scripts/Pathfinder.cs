@@ -1,32 +1,41 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace GraphPathfinder
 {
     public class Pathfinder
     {
         private readonly NodesHandler _nodesHandler;
-        private readonly EdgesHandler _edgesHandler;
         private readonly IPathFindingAlgorithm _pathFindingAlgorithm;
+        private readonly List<Connection> _pathConnections;
+
         private int[,] _graph;
 
         private Node _sourceNode;
         private Node _destinationNode;
         private bool _isComplete;
 
-        public Pathfinder(NodesHandler nodesHandler, EdgesHandler edgesHandler, IPathFindingAlgorithm pathFindingAlgorithm)
+        public Pathfinder(NodesHandler nodesHandler, IPathFindingAlgorithm pathFindingAlgorithm)
         {
             _nodesHandler = nodesHandler;
-            _edgesHandler = edgesHandler;
             _pathFindingAlgorithm = pathFindingAlgorithm;
+            _pathConnections = new List<Connection>();
         }
 
         public void SetNewGraph(int[,] graph)
         {
             _graph = graph;
 
+            Reset();
+        }
+
+        private void Reset()
+        {
+            _pathConnections.Clear();
+
+            _isComplete = false;
             _sourceNode = null;
             _destinationNode = null;
-            _isComplete = false;
         }
 
         public void PickNodeOnPosition(Vector2 pointerPosition)
@@ -56,16 +65,6 @@ namespace GraphPathfinder
             }
         }
 
-        private void ClearPath()
-        {
-            _nodesHandler.SkipNodes();
-            _edgesHandler.SkipEdges();
-
-            _isComplete = false;
-            _sourceNode = null;
-            _destinationNode = null;
-        }
-
         private void SetSourceNode(Node nearNode)
         {
             _sourceNode = nearNode;
@@ -86,15 +85,36 @@ namespace GraphPathfinder
         {
             int[] shortestPath = _pathFindingAlgorithm.FindShortestPath(_graph, _sourceNode.Number, _graph.GetLength(0));
 
-            int currentIndex = _destinationNode.Number;
+            Node currentNode = _destinationNode;
 
-            while (shortestPath[currentIndex] != _sourceNode.Number)
+            while (shortestPath[currentNode.Number] != _sourceNode.Number)
             {
-                currentIndex = _nodesHandler.Nodes[shortestPath[currentIndex]].Number;
-                _nodesHandler.Nodes[currentIndex].Pick();
+                int previousNumber = shortestPath[currentNode.Number];
+
+                Connection connection = currentNode.Connections.Find(x => x.ConnectedNode.Number == previousNumber);
+                connection.ConnectedNode.Pick();
+                connection.Edge.ToggleLight(true);
+                _pathConnections.Add(connection);
+
+                currentNode = connection.ConnectedNode;
             }
 
-            _edgesHandler.PickEdges();
+            Connection lastConnection = currentNode.Connections.Find(x => x.ConnectedNode == _sourceNode);
+            lastConnection.Edge.ToggleLight(true);
+            _pathConnections.Add(lastConnection);
+        }
+
+        private void ClearPath()
+        {
+            foreach (Connection connection in _pathConnections)
+            {
+                connection.ConnectedNode.Skip();
+                connection.Edge.ToggleLight(false);
+            }
+
+            _destinationNode.Skip();
+
+            Reset();
         }
     }
 }

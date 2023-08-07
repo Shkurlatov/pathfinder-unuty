@@ -60,14 +60,6 @@ namespace GraphPathfinder
             }
         }
 
-        public void SkipNodes()
-        {
-            foreach (Node node in Nodes)
-            {
-                node.Skip();
-            }
-        }
-
         public void Clear()
         {
             foreach (Node node in Nodes)
