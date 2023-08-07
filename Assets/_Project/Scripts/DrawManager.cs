@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace DijkstrasAlgorithm
+namespace GraphPathfinder
 {
     public class DrawManager
     {
@@ -77,10 +77,10 @@ namespace DijkstrasAlgorithm
 
             if (nearNode != null && nearNode != _currentNode)
             {
-                if (!_currentNode.Connections.Contains(nearNode))
+                if (!_currentNode.Connections.Exists(x => x.ConnectedNode == nearNode))
                 {
                     _edgesHandler.CompleteEdge(_currentEdge, nearNode);
-                    _nodesHandler.ConnectNodes(_currentNode, nearNode);
+                    _nodesHandler.ConnectNodes(_currentNode, nearNode, _currentEdge);
 
                     return;
                 }

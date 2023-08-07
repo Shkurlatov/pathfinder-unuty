@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace DijkstrasAlgorithm
+namespace GraphPathfinder
 {
     public interface IInput
     {

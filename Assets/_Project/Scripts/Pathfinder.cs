@@ -1,86 +1,132 @@
 ﻿using System;
 using UnityEngine;
 
-namespace DijkstrasAlgorithm
+namespace GraphPathfinder
 {
     public class Pathfinder
     {
-        private const string BUTTON_TAG = "Button";
-
         private readonly NodesHandler _nodesHandler;
         private readonly EdgesHandler _edgesHandler;
+        private readonly IPathFindingAlgorithm _pathFindingAlgorithm;
+        private int[,] _graph;
 
-        private readonly Camera _camera;
-
-        private float[,] _graph;
-
-        private Node[] _nodes;
         private Node _sourceNode;
         private Node _destinationNode;
         private bool _isComplete;
 
-        public Pathfinder(NodesHandler nodesHandler, EdgesHandler edgesHandler)
+        public Pathfinder(NodesHandler nodesHandler, EdgesHandler edgesHandler, IPathFindingAlgorithm pathFindingAlgorithm)
         {
             _nodesHandler = nodesHandler;
             _edgesHandler = edgesHandler;
-
-            _camera = Camera.main;
+            _pathFindingAlgorithm = pathFindingAlgorithm;
         }
 
-        public void SetGraph(float[,] graph)
+        public void SetNewGraph(int[,] graph)
         {
             _graph = graph;
 
-            _nodes = _nodesHandler.GetNodes();
             _sourceNode = null;
             _destinationNode = null;
             _isComplete = false;
         }
 
-        public void Update()
+        public void PickNodeOnPosition(Vector2 pointerPosition)
         {
-            //    if (Input.GetMouseButtonDown(0))
-            //    {
-            //        if (AboveButton())
-            //        {
-            //            return;
-            //        }
+            if (_isComplete)
+            {
+                ClearPath();
+            }
 
-            //        if (_isComplete)
-            //        {
-            //            _nodesHandler.SkipNodes();
-            //            _edgesHandler.SkipEdges();
+            Node nearNode = _nodesHandler.FindNearNode(pointerPosition);
 
-            //            _isComplete = false;
-            //            _sourceNode = null;
-            //            _destinationNode = null;
-            //        }
+            if (nearNode == null)
+            {
+                return;
+            }
 
-            //        Vector2 releasePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
-            //        Node nearNode = _nodesHandler.FindNearNode(releasePosition);
+            if (_sourceNode == null)
+            {
+                SetSourceNode(nearNode);
 
-            //        if (nearNode != null)
-            //        {
-            //            if (_sourceNode == null)
-            //            {
-            //                _sourceNode = nearNode;
-            //                _sourceNode.Pick();
+                return;
+            }
 
-            //                return;
-            //            }
-
-            //            if (_sourceNode != nearNode)
-            //            {
-            //                _destinationNode = nearNode;
-            //                _destinationNode.Pick();
-
-            //                _isComplete = true;
-
-            //                FindPath();
-            //            }
-            //        }
-            //    }
+            if (_sourceNode != nearNode)
+            {
+                CompletePath(nearNode);
+            }
         }
+
+        private void ClearPath()
+        {
+            _nodesHandler.SkipNodes();
+            _edgesHandler.SkipEdges();
+
+            _isComplete = false;
+            _sourceNode = null;
+            _destinationNode = null;
+        }
+
+        private void SetSourceNode(Node nearNode)
+        {
+            _sourceNode = nearNode;
+            _sourceNode.Pick();
+        }
+
+        private void CompletePath(Node nearNode)
+        {
+            _destinationNode = nearNode;
+            _destinationNode.Pick();
+
+            _isComplete = true;
+
+            FindPath();
+        }
+
+        //public void Update()
+        //{
+        //    if (Input.GetMouseButtonDown(0))
+        //    {
+        //        if (AboveButton())
+        //        {
+        //            return;
+        //        }
+
+        //        if (_isComplete)
+        //        {
+        //            _nodesHandler.SkipNodes();
+        //            _edgesHandler.SkipEdges();
+
+        //            _isComplete = false;
+        //            _sourceNode = null;
+        //            _destinationNode = null;
+        //        }
+
+        //        Vector2 releasePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
+        //        Node nearNode = _nodesHandler.FindNearNode(releasePosition);
+
+        //        if (nearNode != null)
+        //        {
+        //            if (_sourceNode == null)
+        //            {
+        //                _sourceNode = nearNode;
+        //                _sourceNode.Pick();
+
+        //                return;
+        //            }
+
+        //            if (_sourceNode != nearNode)
+        //            {
+        //                _destinationNode = nearNode;
+        //                _destinationNode.Pick();
+
+        //                _isComplete = true;
+
+        //                FindPath();
+        //            }
+        //        }
+        //    }
+        //}
 
         //private bool AboveButton()
         //{
@@ -96,7 +142,7 @@ namespace DijkstrasAlgorithm
 
         public void FindPath()
         {
-            Dijkstra(_graph, _sourceNode.Number - 1, _graph.GetLength(0));
+            //Dijkstra(_graph, _sourceNode.Number - 1, _graph.GetLength(0));
         }
 
         private void Dijkstra(float[,] graph, int source, int verticesCount)
@@ -155,8 +201,8 @@ namespace DijkstrasAlgorithm
 
             while (previousShortestIndex[currentIndex] != _sourceNode.Number - 1)
             {
-                currentIndex = _nodes[previousShortestIndex[currentIndex]].Number - 1;
-                _nodes[currentIndex].Pick();
+                currentIndex = _nodesHandler.Nodes[previousShortestIndex[currentIndex]].Number - 1;
+                _nodesHandler.Nodes[currentIndex].Pick();
             }
 
             _edgesHandler.PickEdges();

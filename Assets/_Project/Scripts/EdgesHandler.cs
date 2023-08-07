@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace DijkstrasAlgorithm
+namespace GraphPathfinder
 {
     public class EdgesHandler
     {
@@ -25,9 +25,9 @@ namespace DijkstrasAlgorithm
 
         public void CompleteEdge(Edge edge, Node endNode)
         {
-            edge.SetPosition(endNode.Position, 1);
-            edge.EndNode = endNode;
-            edge.SetDistance();
+            //edge.SetPosition(endNode.Position, 1);
+            //edge.EndNode = endNode;
+            edge.Complete(endNode);
 
             _edges.Add(edge);
         }

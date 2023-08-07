@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace DijkstrasAlgorithm
+namespace GraphPathfinder
 {
     public class Application : MonoBehaviour
     {
@@ -17,9 +17,6 @@ namespace DijkstrasAlgorithm
         private DrawManager _drawManager;
         private Pathfinder _pathfinder;
 
-        private Node[] _nodes;
-        private float[,] _graph;
-
         private void Awake()
         {
             _state = State.Init;
@@ -34,7 +31,7 @@ namespace DijkstrasAlgorithm
             _nodesHandler = new NodesHandler(_nodePrefab, _uiRoot);
             _edgesHandler = new EdgesHandler(_edgePrefab);
             _drawManager = new DrawManager(_input, _nodesHandler, _edgesHandler, OnDrawInputComplete);
-            _pathfinder = new Pathfinder(_nodesHandler, _edgesHandler);
+            _pathfinder = new Pathfinder(_nodesHandler, _edgesHandler, new DijkstraAlgorithm());
 
             _state = State.ConstructGraph;
         }
@@ -82,14 +79,19 @@ namespace DijkstrasAlgorithm
         {
             if (_input.IsPointerOverUI())
             {
-                Debug.Log("UI");
-
                 return;
             }
 
             if (_state == State.ConstructGraph)
             {
                 _state = State.Draw;
+
+                return;
+            }
+
+            if (_state == State.ChooseNodes)
+            {
+                _pathfinder.PickNodeOnPosition(_input.PointerPosition());
             }
         }
 
@@ -110,34 +112,11 @@ namespace DijkstrasAlgorithm
 
         private void OnBuildGraphPressed()
         {
-            //_state = State.BuildGraph;
+            _state = State.BuildGraph;
 
-            //FillGraph();
+            _pathfinder.SetNewGraph(GraphBuilder.BuildGraph(_nodesHandler.Nodes));
 
-            //_pathfinder.SetGraph(_graph);
-
-            //_state = State.FindPath;
-        }
-
-        private void FillGraph()
-        {
-            _nodes = _nodesHandler.GetNodes();
-            _graph = new float[_nodes.Length, _nodes.Length];
-
-            for (int i = 0; i < _nodes.Length; i++)
-            {
-                for (int j = 0; j < _nodes.Length; j++)
-                {
-                    if (_nodes[i].Connections.Contains(_nodes[j]))
-                    {
-                        _graph[i, j] = Vector2.Distance(_nodes[i].Position, _nodes[j].Position);
-
-                        continue;
-                    }
-
-                    _graph[i, j] = 0.0f;
-                }
-            }
+            _state = State.FindPath;
         }
 
         private enum State
@@ -146,7 +125,7 @@ namespace DijkstrasAlgorithm
             ConstructGraph = 1,
             Draw = 2,
             BuildGraph = 3,
-            ChoosePoints = 4,
+            ChooseNodes = 4,
             FindPath = 5,
             Restart = 6,
         }

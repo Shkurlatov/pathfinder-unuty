@@ -1,13 +1,13 @@
 using TMPro;
 using UnityEngine;
 
-namespace DijkstrasAlgorithm
+namespace GraphPathfinder
 {
     public class Edge : MonoBehaviour
     {
         [SerializeField] private LineRenderer _renderer;
         [SerializeField] private GameObject _distanceMarker;
-        [SerializeField] private TextMeshProUGUI _distanceText;
+        [SerializeField] private TextMeshProUGUI _markerText;
 
         [SerializeField] private Material _darkMaterial;
         [SerializeField] private Material _lightMaterial;
@@ -15,18 +15,30 @@ namespace DijkstrasAlgorithm
         public Node StartNode;
         public Node EndNode;
 
-        public float Distance { get; private set; }
+        public int RelativeDistance { get; private set; }
 
         public void SetPosition(Vector2 position, int point)
         {
             _renderer.SetPosition(point, position);
         }
 
-        public void SetDistance()
+        public void Complete(Node endNode)
         {
-            Distance = Vector2.Distance(StartNode.Position, EndNode.Position);
-            _distanceText.text = string.Format("{0:0.#}", Distance);
-            _distanceMarker.transform.position = StartNode.Position + ((EndNode.Position - StartNode.Position) / 2);
+            EndNode = endNode;
+            RelativeDistance = (int)(Vector2.Distance(StartNode.Position, EndNode.Position) * 10);
+
+            SetPosition(EndNode.Position, 1);
+
+            ActivateDistanceMarker();
+        }
+
+        private void ActivateDistanceMarker()
+        {
+            Vector2 markerPosition = StartNode.Position + ((EndNode.Position - StartNode.Position) / 2);
+
+            _markerText.text = ((float)RelativeDistance / 10).ToString();
+            _distanceMarker.transform.position = markerPosition;
+
             _distanceMarker.SetActive(true);
         }
 

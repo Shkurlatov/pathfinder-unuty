@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-namespace DijkstrasAlgorithm
+namespace GraphPathfinder
 {
     public class Node : MonoBehaviour
     {
@@ -18,14 +18,14 @@ namespace DijkstrasAlgorithm
         [SerializeField] private Color _lightColor;
 
         public Vector2 Position { get; private set; }
-        public List<Node> Connections { get; private set; }
+        public List<Connection> Connections { get; private set; }
         public int Number { get; private set; }
         public bool IsActive { get; private set; }
         public bool IsPicked { get; private set; }
 
         private void Awake()
         {
-            Connections = new List<Node>();
+            Connections = new List<Connection>();
         }
 
         private void Start()
@@ -40,9 +40,9 @@ namespace DijkstrasAlgorithm
 
             _meshRenderer.material = _inactiveMaterial;
             _borderImage.enabled = false;
-            _numberText.text = number.ToString();
+            _numberText.text = (number + 1).ToString();
 
-            if (number == 1)
+            if (number == 0)
             {
                 Activate();
             }
@@ -58,9 +58,9 @@ namespace DijkstrasAlgorithm
             IsActive = true;
             _meshRenderer.material = _activeMaterial;
 
-            foreach (Node connection in Connections)
+            foreach (Connection connection in Connections)
             {
-                connection.Activate();
+                connection.ConnectedNode.Activate();
             }
         }
 
@@ -69,13 +69,13 @@ namespace DijkstrasAlgorithm
             _borderImage.enabled = isActive;
         }
 
-        public void Connect(Node connection)
+        public void Connect(Connection connection)
         {
             Connections.Add(connection);
 
             if (IsActive)
             {
-                connection.Activate();
+                connection.ConnectedNode.Activate();
             }
         }
 

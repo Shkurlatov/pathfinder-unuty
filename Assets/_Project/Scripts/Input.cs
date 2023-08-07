@@ -2,7 +2,7 @@
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-namespace DijkstrasAlgorithm
+namespace GraphPathfinder
 {
     public class Input : IInput
     {
