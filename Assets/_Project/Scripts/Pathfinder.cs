@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace GraphPathfinder
 {
@@ -80,142 +79,22 @@ namespace GraphPathfinder
 
             _isComplete = true;
 
-            FindPath();
+            ShowShortestPath();
         }
 
-        //public void Update()
-        //{
-        //    if (Input.GetMouseButtonDown(0))
-        //    {
-        //        if (AboveButton())
-        //        {
-        //            return;
-        //        }
-
-        //        if (_isComplete)
-        //        {
-        //            _nodesHandler.SkipNodes();
-        //            _edgesHandler.SkipEdges();
-
-        //            _isComplete = false;
-        //            _sourceNode = null;
-        //            _destinationNode = null;
-        //        }
-
-        //        Vector2 releasePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
-        //        Node nearNode = _nodesHandler.FindNearNode(releasePosition);
-
-        //        if (nearNode != null)
-        //        {
-        //            if (_sourceNode == null)
-        //            {
-        //                _sourceNode = nearNode;
-        //                _sourceNode.Pick();
-
-        //                return;
-        //            }
-
-        //            if (_sourceNode != nearNode)
-        //            {
-        //                _destinationNode = nearNode;
-        //                _destinationNode.Pick();
-
-        //                _isComplete = true;
-
-        //                FindPath();
-        //            }
-        //        }
-        //    }
-        //}
-
-        //private bool AboveButton()
-        //{
-        //    GameObject current = EventSystem.current.currentSelectedGameObject;
-
-        //    if (current != null && current.CompareTag(BUTTON_TAG))
-        //    {
-        //        return true;
-        //    }
-
-        //    return false;
-        //}
-
-        public void FindPath()
+        private void ShowShortestPath()
         {
-            //Dijkstra(_graph, _sourceNode.Number - 1, _graph.GetLength(0));
-        }
+            int[] shortestPath = _pathFindingAlgorithm.FindShortestPath(_graph, _sourceNode.Number, _graph.GetLength(0));
 
-        private void Dijkstra(float[,] graph, int source, int verticesCount)
-        {
-            float[] distance = new float[verticesCount];
-            bool[] shortestPathTreeSet = new bool[verticesCount];
-            int[] previousShortestIndex = new int[verticesCount];
+            int currentIndex = _destinationNode.Number;
 
-            for (int i = 0; i < verticesCount; ++i)
+            while (shortestPath[currentIndex] != _sourceNode.Number)
             {
-                distance[i] = float.MaxValue;
-                shortestPathTreeSet[i] = false;
-            }
-
-            distance[source] = 0.0f;
-
-            for (int count = 0; count < verticesCount - 1; ++count)
-            {
-                int u = MinimumDistance(distance, shortestPathTreeSet, verticesCount);
-                shortestPathTreeSet[u] = true;
-
-                for (int v = 0; v < verticesCount; ++v)
-                {
-                    if (!shortestPathTreeSet[v] && Convert.ToBoolean(graph[u, v]) && distance[u] != float.MaxValue && distance[u] + graph[u, v] < distance[v])
-                    {
-                        distance[v] = distance[u] + graph[u, v];
-                        previousShortestIndex[v] = u;
-                    }
-                }
-            }
-
-            ShowShortestPath(previousShortestIndex);
-            Print(distance, verticesCount);
-        }
-
-        private int MinimumDistance(float[] distance, bool[] shortestPathTreeSet, int verticesCount)
-        {
-            float min = float.MaxValue;
-            int minIndex = 0;
-
-            for (int v = 0; v < verticesCount; ++v)
-            {
-                if (shortestPathTreeSet[v] == false && distance[v] <= min)
-                {
-                    min = distance[v];
-                    minIndex = v;
-                }
-            }
-
-            return minIndex;
-        }
-
-        private void ShowShortestPath(int[] previousShortestIndex)
-        {
-            int currentIndex = _destinationNode.Number - 1;
-
-            while (previousShortestIndex[currentIndex] != _sourceNode.Number - 1)
-            {
-                currentIndex = _nodesHandler.Nodes[previousShortestIndex[currentIndex]].Number - 1;
+                currentIndex = _nodesHandler.Nodes[shortestPath[currentIndex]].Number;
                 _nodesHandler.Nodes[currentIndex].Pick();
             }
 
             _edgesHandler.PickEdges();
-        }
-
-        private void Print(float[] distance, int verticesCount)
-        {
-            Debug.Log("Vertex    Distance from source");
-
-            for (int i = 0; i < verticesCount; ++i)
-            {
-                Debug.Log($"{i}\t  {distance[i]}");
-            }
         }
     }
 }

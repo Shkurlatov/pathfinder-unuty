@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _renderer: {fileID: 4751246894422902197}
   _distanceMarker: {fileID: 6680158536017499127}
-  _distanceText: {fileID: 3353904150231353334}
+  _markerText: {fileID: 3353904150231353334}
   _darkMaterial: {fileID: 2100000, guid: b0e7a8912c785194a9cff6f9422aae72, type: 2}
   _lightMaterial: {fileID: 2100000, guid: a61fb2422bad54848994b5cb1f28ab36, type: 2}
   StartNode: {fileID: 0}
@@ -250,6 +250,10 @@ PrefabInstance:
     - target: {fileID: 3742028695918847747, guid: 6893619c9d0bc904081edc0afd3e3f59, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3874797499039831610, guid: 6893619c9d0bc904081edc0afd3e3f59, type: 3}
+      propertyPath: m_Name
+      value: Marker_text
       objectReference: {fileID: 0}
     - target: {fileID: 5332122225200228132, guid: 6893619c9d0bc904081edc0afd3e3f59, type: 3}
       propertyPath: m_PresetInfoIsWorld

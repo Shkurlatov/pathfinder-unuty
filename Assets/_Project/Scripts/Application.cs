@@ -47,32 +47,6 @@ namespace GraphPathfinder
             {
                 _drawManager.Update();
             }
-
-            //if (_state == State.FindPath)
-            //{
-            //    _pathfinder.Update();
-            //}
-
-            //if (_state == State.Draw)
-            //{
-            //    if (Mouse.current.leftButton.wasPressedThisFrame)
-            //    {
-            //        if (EventSystem.current.IsPointerOverGameObject())
-            //        {
-            //            Debug.Log("UI");
-
-            //            return;
-            //        }
-
-            //        Debug.Log("Free space");
-            //    }
-            //    //_drawManager.Update();
-            //}
-
-            //if (_state == State.FindPath)
-            //{
-            //    //_pathfinder.Update();
-            //}
         }
 
         private void ProcessInput()
@@ -102,12 +76,12 @@ namespace GraphPathfinder
 
         private void OnRestartPressed()
         {
-            //_state = State.Restart;
+            _state = State.Restart;
 
-            //_edgesHandler.Clear();
-            //_nodesHandler.Clear();
+            _edgesHandler.Clear();
+            _nodesHandler.Clear();
 
-            //_state = State.Draw;
+            _state = State.ConstructGraph;
         }
 
         private void OnBuildGraphPressed()
@@ -116,7 +90,7 @@ namespace GraphPathfinder
 
             _pathfinder.SetNewGraph(GraphBuilder.BuildGraph(_nodesHandler.Nodes));
 
-            _state = State.FindPath;
+            _state = State.ChooseNodes;
         }
 
         private enum State
@@ -126,8 +100,7 @@ namespace GraphPathfinder
             Draw = 2,
             BuildGraph = 3,
             ChooseNodes = 4,
-            FindPath = 5,
-            Restart = 6,
+            Restart = 5,
         }
     }
 }
