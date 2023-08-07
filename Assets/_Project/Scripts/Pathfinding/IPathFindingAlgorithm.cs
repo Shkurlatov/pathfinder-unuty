@@ -1,4 +1,4 @@
-﻿namespace GraphPathfinder
+﻿namespace GraphPathfinder.Pathfinding
 {
     public interface IPathFindingAlgorithm
     {

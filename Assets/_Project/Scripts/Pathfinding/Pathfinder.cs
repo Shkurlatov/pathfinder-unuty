@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using GraphPathfinder.Drawing;
+using System.Collections.Generic;
 using UnityEngine;
 
-namespace GraphPathfinder
+namespace GraphPathfinder.Pathfinding
 {
     public class Pathfinder
     {

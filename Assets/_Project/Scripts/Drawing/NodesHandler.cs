@@ -1,8 +1,9 @@
+using GraphPathfinder.UI;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace GraphPathfinder
+namespace GraphPathfinder.Drawing
 {
     public class NodesHandler
     {

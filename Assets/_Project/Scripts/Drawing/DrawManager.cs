@@ -1,7 +1,8 @@
+using GraphPathfinder.Core;
 using System;
 using UnityEngine;
 
-namespace GraphPathfinder
+namespace GraphPathfinder.Drawing
 {
     public class DrawManager
     {

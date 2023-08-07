@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using GraphPathfinder.Drawing;
+using System.Collections.Generic;
 
-namespace GraphPathfinder
+namespace GraphPathfinder.Pathfinding
 {
     public class GraphBuilder
     {

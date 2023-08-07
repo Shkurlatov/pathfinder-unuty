@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace GraphPathfinder
+namespace GraphPathfinder.Drawing
 {
     public class Edge : MonoBehaviour
     {

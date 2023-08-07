@@ -2,7 +2,7 @@
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-namespace GraphPathfinder
+namespace GraphPathfinder.Core
 {
     public class Input : IInput
     {

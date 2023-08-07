@@ -1,6 +1,9 @@
+using GraphPathfinder.Drawing;
+using GraphPathfinder.Pathfinding;
+using GraphPathfinder.UI;
 using UnityEngine;
 
-namespace GraphPathfinder
+namespace GraphPathfinder.Core
 {
     public class Application : MonoBehaviour
     {

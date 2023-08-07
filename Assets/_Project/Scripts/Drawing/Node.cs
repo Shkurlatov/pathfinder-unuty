@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-namespace GraphPathfinder
+namespace GraphPathfinder.Drawing
 {
     public class Node : MonoBehaviour
     {

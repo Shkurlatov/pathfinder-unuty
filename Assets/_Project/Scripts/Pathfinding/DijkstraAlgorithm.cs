@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GraphPathfinder
+namespace GraphPathfinder.Pathfinding
 {
     public class DijkstraAlgorithm : IPathFindingAlgorithm
     {

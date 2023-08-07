@@ -1,4 +1,4 @@
-﻿namespace GraphPathfinder
+﻿namespace GraphPathfinder.Drawing
 {
     public class Connection
     {

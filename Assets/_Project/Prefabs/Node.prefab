@@ -128,15 +128,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1277312860772272104}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10655d18e3389fb4e8b6537dc5e11ba0, type: 3}
+  m_Script: {fileID: 11500000, guid: b911ee79fefbad746ad670b17f635326, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _nodeImage: {fileID: 7403775794479030833}
   _backLightImage: {fileID: 4529077274240055271}
   _numberText: {fileID: 1277312861460138848}
-  _activeColor: {r: 0.3223856, g: 1, b: 0.30817604, a: 1}
+  _activeColor: {r: 0.32156864, g: 1, b: 0.30980393, a: 1}
   _inactiveColor: {r: 1, g: 0.78039217, b: 0.78039217, a: 1}
-  _darkColor: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 1}
+  _darkColor: {r: 0.2264151, g: 0.2264151, b: 0.2264151, a: 1}
   _lightColor: {r: 0.8962264, g: 0.8962264, b: 0.8962264, a: 1}
 --- !u!1 &1277312860952602557
 GameObject:

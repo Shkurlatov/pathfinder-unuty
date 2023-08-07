@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace GraphPathfinder
+namespace GraphPathfinder.Core
 {
     public interface IInput
     {
