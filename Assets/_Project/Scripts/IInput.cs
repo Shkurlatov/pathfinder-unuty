@@ -4,9 +4,10 @@ namespace GraphPathfinder
 {
     public interface IInput
     {
+        bool IsPointerOverUI();
+        string SelectedElementTag();
         bool ButtonWasPressed();
         bool ButtonWasReleased();
-        bool IsPointerOverUI();
         Vector2 PointerPosition();
     }
 }

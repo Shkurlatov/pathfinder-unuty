@@ -10,8 +10,8 @@ namespace GraphPathfinder
 
         private State _state;
 
-        private IInput _input;
         private UIRoot _uiRoot;
+        private IInput _input;
         private NodesHandler _nodesHandler;
         private EdgesHandler _edgesHandler;
         private DrawManager _drawManager;
@@ -24,16 +24,27 @@ namespace GraphPathfinder
 
         private void Start()
         {
-            _uiRoot = Instantiate(_uiRootPrefab);
-            _uiRoot.Initialize(OnRestartPressed, OnBuildGraphPressed);
+            InitializeUI();
 
+            InitializeSystem();
+
+            _state = State.ConstructGraph;
+        }
+
+        private void InitializeUI()
+        {
+            _uiRoot = Instantiate(_uiRootPrefab);
+            _uiRoot.OnRestartButtonClick += Restart;
+            _uiRoot.OnBuildGraphButtonClick += BuildGraph;
+        }
+
+        private void InitializeSystem()
+        {
             _input = new Input();
             _nodesHandler = new NodesHandler(_nodePrefab, _uiRoot);
             _edgesHandler = new EdgesHandler(_edgePrefab);
             _drawManager = new DrawManager(_input, _nodesHandler, _edgesHandler, OnDrawInputComplete);
             _pathfinder = new Pathfinder(_nodesHandler, new DijkstraAlgorithm());
-
-            _state = State.ConstructGraph;
         }
 
         private void Update()
@@ -53,6 +64,8 @@ namespace GraphPathfinder
         {
             if (_input.IsPointerOverUI())
             {
+                _uiRoot.ProcessUIClick(_input.SelectedElementTag());
+
                 return;
             }
 
@@ -74,7 +87,7 @@ namespace GraphPathfinder
             _state = State.ConstructGraph;
         }
 
-        private void OnRestartPressed()
+        private void Restart()
         {
             _state = State.Restart;
 
@@ -84,13 +97,19 @@ namespace GraphPathfinder
             _state = State.ConstructGraph;
         }
 
-        private void OnBuildGraphPressed()
+        private void BuildGraph()
         {
             _state = State.BuildGraph;
 
             _pathfinder.SetNewGraph(GraphBuilder.BuildGraph(_nodesHandler.Nodes));
 
             _state = State.ChooseNodes;
+        }
+
+        private void OnDisable()
+        {
+            _uiRoot.OnRestartButtonClick -= Restart;
+            _uiRoot.OnBuildGraphButtonClick -= BuildGraph;
         }
 
         private enum State

@@ -18,6 +18,11 @@ namespace GraphPathfinder
             return EventSystem.current.IsPointerOverGameObject();
         }
 
+        public string SelectedElementTag()
+        {
+            return EventSystem.current.currentSelectedGameObject.tag;
+        }
+
         public bool ButtonWasPressed()
         {
             return Mouse.current.leftButton.wasPressedThisFrame;

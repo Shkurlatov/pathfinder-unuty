@@ -4,32 +4,40 @@ using UnityEngine.UI;
 
 public class UIRoot : MonoBehaviour
 {
-    [SerializeField] private GameObject _resetButton;
+    [SerializeField] private GameObject _restartButton;
     [SerializeField] private GameObject _buildGraphButton;
 
     [SerializeField] private Color _greenColor;
     [SerializeField] private Color _redColor;
 
-    private Action _reset;
-    private Action _buildGraph;
+    public event Action OnRestartButtonClick;
+    public event Action OnBuildGraphButtonClick;
 
-    private void Awake()
+    private void Start()
     {
-        _resetButton.GetComponent<Button>().onClick.AddListener(Restart);
-        _buildGraphButton.GetComponent<Button>().onClick.AddListener(BuildGraph);
-
-        //HideButtons();
+        HideButtons();
     }
 
-    public void Initialize(Action reset, Action buildGraph)
+    public void ProcessUIClick(string elementTag)
     {
-        _reset = reset;
-        _buildGraph = buildGraph;
+        if (_restartButton.CompareTag(elementTag))
+        {
+            HideButtons();
+
+            OnRestartButtonClick?.Invoke();
+        }
+
+        if (_buildGraphButton.CompareTag(elementTag))
+        {
+            _buildGraphButton.SetActive(false);
+
+            OnBuildGraphButtonClick?.Invoke();
+        }
     }
 
     public void OnNodeCreated()
     {
-        _resetButton.SetActive(true);
+        _restartButton.SetActive(true);
         ToggleGraphBuildButton(false);
     }
 
@@ -41,7 +49,7 @@ public class UIRoot : MonoBehaviour
 
     private void HideButtons()
     {
-        _resetButton.SetActive(false);
+        _restartButton.SetActive(false);
         _buildGraphButton.SetActive(false);
     }
 
@@ -49,19 +57,5 @@ public class UIRoot : MonoBehaviour
     {
         _buildGraphButton.GetComponent<Button>().enabled = turnOn;
         _buildGraphButton.GetComponent<Image>().color = turnOn ? _greenColor : _redColor;
-    }
-
-    private void Restart()
-    {
-        HideButtons();
-
-        _reset?.Invoke();
-    }
-
-    private void BuildGraph()
-    {
-        _buildGraphButton.SetActive(false);
-
-        _buildGraph?.Invoke();
     }
 }

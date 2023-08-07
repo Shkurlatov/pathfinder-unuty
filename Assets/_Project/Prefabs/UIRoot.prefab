@@ -194,7 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164c16e493621e646a948fad6fb42397, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _resetButton: {fileID: 8772139456461125096}
+  _restartButton: {fileID: 8772139456461125096}
   _buildGraphButton: {fileID: 6615484960953065761}
   _greenColor: {r: 0.43529412, g: 0.6509804, b: 0.011764706, a: 1}
   _redColor: {r: 0.8392157, g: 0.33333334, b: 0.02745098, a: 1}
@@ -309,6 +309,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5110815642390483864, guid: d16aa4aad1f88064988d7f72457620ee, type: 3}
+      propertyPath: m_TagString
+      value: BuildGraphButton
+      objectReference: {fileID: 0}
     - target: {fileID: 5972742979078815135, guid: d16aa4aad1f88064988d7f72457620ee, type: 3}
       propertyPath: m_Colors.m_NormalColor.b
       value: 1
@@ -340,6 +344,34 @@ PrefabInstance:
     - target: {fileID: 6236579784165346307, guid: d16aa4aad1f88064988d7f72457620ee, type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 7069297546101054921, guid: d16aa4aad1f88064988d7f72457620ee, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7069297546101054921, guid: d16aa4aad1f88064988d7f72457620ee, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7069297546101054921, guid: d16aa4aad1f88064988d7f72457620ee, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 8479314722889431556}
+    - target: {fileID: 7069297546101054921, guid: d16aa4aad1f88064988d7f72457620ee, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7069297546101054921, guid: d16aa4aad1f88064988d7f72457620ee, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnBuildGraphPressed
+      objectReference: {fileID: 0}
+    - target: {fileID: 7069297546101054921, guid: d16aa4aad1f88064988d7f72457620ee, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UIRoot, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7069297546101054921, guid: d16aa4aad1f88064988d7f72457620ee, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d16aa4aad1f88064988d7f72457620ee, type: 3}
@@ -458,11 +490,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5110815642390483864, guid: d16aa4aad1f88064988d7f72457620ee, type: 3}
       propertyPath: m_Name
-      value: ResetButton
+      value: RestartButton
       objectReference: {fileID: 0}
     - target: {fileID: 5110815642390483864, guid: d16aa4aad1f88064988d7f72457620ee, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5110815642390483864, guid: d16aa4aad1f88064988d7f72457620ee, type: 3}
+      propertyPath: m_TagString
+      value: RestartButton
       objectReference: {fileID: 0}
     - target: {fileID: 5972742979078815135, guid: d16aa4aad1f88064988d7f72457620ee, type: 3}
       propertyPath: m_Colors.m_NormalColor.b
@@ -478,7 +514,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6236579784165346307, guid: d16aa4aad1f88064988d7f72457620ee, type: 3}
       propertyPath: m_text
-      value: Reset
+      value: Restart
       objectReference: {fileID: 0}
     - target: {fileID: 6236579784165346307, guid: d16aa4aad1f88064988d7f72457620ee, type: 3}
       propertyPath: m_fontColor.b
@@ -495,6 +531,34 @@ PrefabInstance:
     - target: {fileID: 6236579784165346307, guid: d16aa4aad1f88064988d7f72457620ee, type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 7069297546101054921, guid: d16aa4aad1f88064988d7f72457620ee, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7069297546101054921, guid: d16aa4aad1f88064988d7f72457620ee, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7069297546101054921, guid: d16aa4aad1f88064988d7f72457620ee, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 8479314722889431556}
+    - target: {fileID: 7069297546101054921, guid: d16aa4aad1f88064988d7f72457620ee, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7069297546101054921, guid: d16aa4aad1f88064988d7f72457620ee, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnRestartPressed
+      objectReference: {fileID: 0}
+    - target: {fileID: 7069297546101054921, guid: d16aa4aad1f88064988d7f72457620ee, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UIRoot, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7069297546101054921, guid: d16aa4aad1f88064988d7f72457620ee, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d16aa4aad1f88064988d7f72457620ee, type: 3}
