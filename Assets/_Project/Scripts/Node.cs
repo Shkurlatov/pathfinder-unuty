@@ -6,14 +6,12 @@ namespace GraphPathfinder
 {
     public class Node : MonoBehaviour
     {
-        [SerializeField] private Material _inactiveMaterial;
-        [SerializeField] private Material _activeMaterial;
-
-        [SerializeField] private MeshRenderer _meshRenderer;
-        [SerializeField] private SpriteRenderer _borderImage;
+        [SerializeField] private SpriteRenderer _nodeImage;
         [SerializeField] private SpriteRenderer _backLightImage;
         [SerializeField] private TextMeshProUGUI _numberText;
 
+        [SerializeField] private Color _activeColor;
+        [SerializeField] private Color _inactiveColor;
         [SerializeField] private Color _darkColor;
         [SerializeField] private Color _lightColor;
 
@@ -38,8 +36,7 @@ namespace GraphPathfinder
             Number = number;
             IsActive = false;
 
-            _meshRenderer.material = _inactiveMaterial;
-            _borderImage.enabled = false;
+            _nodeImage.color = _inactiveColor;
             _numberText.text = (number + 1).ToString();
 
             if (number == 0)
@@ -56,17 +53,12 @@ namespace GraphPathfinder
             }
 
             IsActive = true;
-            _meshRenderer.material = _activeMaterial;
+            _nodeImage.color = _activeColor;
 
             foreach (Connection connection in Connections)
             {
                 connection.ConnectedNode.Activate();
             }
-        }
-
-        public void ToggleBorder(bool isActive)
-        {
-            _borderImage.enabled = isActive;
         }
 
         public void Connect(Connection connection)
