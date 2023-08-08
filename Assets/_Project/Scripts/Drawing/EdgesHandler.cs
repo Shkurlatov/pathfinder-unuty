@@ -7,16 +7,18 @@ namespace GraphPathfinder.Drawing
     {
         private readonly Edge _edgePrefab;
         private readonly List<Edge> _edges;
+        private readonly Transform _edgesSceneContainer;
 
         public EdgesHandler(Edge nodePrefab)
         {
             _edgePrefab = nodePrefab;
             _edges = new List<Edge>();
+            _edgesSceneContainer = new GameObject("Edges").transform;
         }
 
         public Edge InstantiateEdge(Node startNode)
         {
-            Edge edge = Object.Instantiate(_edgePrefab);
+            Edge edge = Object.Instantiate(_edgePrefab, _edgesSceneContainer);
             edge.SetPosition(startNode.Position, 0);
             edge.StartNode = startNode;
 

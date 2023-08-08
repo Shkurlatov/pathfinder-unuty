@@ -267,7 +267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _uiRootPrefab: {fileID: 8479314722889431556, guid: 261fb434695f9be419c100fca3f28796, type: 3}
-  _nodePrefab: {fileID: 1277312860772272106, guid: b557df50ddfb53c4e89e27200f9ea145, type: 3}
+  _nodePrefab: {fileID: 1562241206291845555, guid: b557df50ddfb53c4e89e27200f9ea145, type: 3}
   _edgePrefab: {fileID: -3833995588864658287, guid: e465be563be83d947b1a070b298fa1e7, type: 3}
   _blueSkybox: {fileID: 2100000, guid: 44540e506989b554695d7cbb18aaa131, type: 2}
   _orangeSkybox: {fileID: 2100000, guid: 6bff513a8138ee641a014b7a8b35f107, type: 2}

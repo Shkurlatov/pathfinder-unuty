@@ -8,7 +8,7 @@ namespace GraphPathfinder.Core
     public class Application : MonoBehaviour
     {
         [SerializeField] private UIRoot _uiRootPrefab;
-        [SerializeField] private Node _nodePrefab;
+        [SerializeField] private NodeObserver _nodePrefab;
         [SerializeField] private Edge _edgePrefab;
 
         [SerializeField] private Material _blueSkybox;

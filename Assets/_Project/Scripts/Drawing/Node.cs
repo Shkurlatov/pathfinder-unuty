@@ -1,63 +1,44 @@
+﻿using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 namespace GraphPathfinder.Drawing
 {
-    public class Node : MonoBehaviour
+    public class Node
     {
-        [SerializeField] private SpriteRenderer _nodeImage;
-        [SerializeField] private SpriteRenderer _backLightImage;
-        [SerializeField] private TextMeshProUGUI _numberText;
-
-        [SerializeField] private Color _activeColor;
-        [SerializeField] private Color _inactiveColor;
-        [SerializeField] private Color _darkColor;
-        [SerializeField] private Color _lightColor;
-
+        public int Number { get; private set; }
         public Vector2 Position { get; private set; }
         public List<Connection> Connections { get; private set; }
-        public int Number { get; private set; }
-        public bool IsActive { get; private set; }
-        public bool IsPicked { get; private set; }
+        public NodeState State { get; private set; }
 
-        private void Awake()
-        {
-            Connections = new List<Connection>();
-        }
+        public event Action<NodeState> OnStateChanged;
 
-        private void Start()
-        {
-            Position = transform.position;
-        }
-
-        public void Initialize(int number)
+        public Node(int number, Vector2 position)
         {
             Number = number;
-            IsActive = false;
-
-            _nodeImage.color = _inactiveColor;
-            _numberText.text = (number + 1).ToString();
+            Position = position;
+            Connections = new List<Connection>();
+            State = NodeState.NotConnected;
 
             if (number == 0)
             {
-                Activate();
+                State = NodeState.Connected;
             }
         }
 
-        public void Activate()
+        public void UpdateConnectionState()
         {
-            if (IsActive)
+            if (State == NodeState.Connected)
             {
                 return;
             }
 
-            IsActive = true;
-            _nodeImage.color = _activeColor;
+            State = NodeState.Connected;
+            OnStateChanged?.Invoke(State);
 
             foreach (Connection connection in Connections)
             {
-                connection.ConnectedNode.Activate();
+                connection.ConnectedNode.UpdateConnectionState();
             }
         }
 
@@ -65,29 +46,36 @@ namespace GraphPathfinder.Drawing
         {
             Connections.Add(connection);
 
-            if (IsActive)
+            if (State == NodeState.Connected)
             {
-                connection.ConnectedNode.Activate();
+                connection.ConnectedNode.UpdateConnectionState();
             }
         }
 
         public void Pick()
         {
-            IsPicked = true;
-
-            _backLightImage.color = _lightColor;
+            State = NodeState.Picked;
+            OnStateChanged?.Invoke(State);
         }
 
         public void Skip()
         {
-            IsPicked = false;
-
-            _backLightImage.color = _darkColor;
+            State = NodeState.Connected;
+            OnStateChanged?.Invoke(State);
         }
 
         public void Destroy()
         {
-            Destroy(gameObject);
+            State = NodeState.Destroyed;
+            OnStateChanged?.Invoke(State);
         }
+    }
+
+    public enum NodeState
+    {
+        NotConnected = 0,
+        Connected = 1,
+        Picked = 2,
+        Destroyed = 3,
     }
 }
