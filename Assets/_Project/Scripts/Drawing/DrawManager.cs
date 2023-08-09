@@ -59,7 +59,7 @@ namespace GraphPathfinder.Drawing
 
         private void RedrawEdge()
         {
-            _currentEdge.SetPosition(_input.PointerPosition(), 1);
+            _currentEdge.SetEndPosition(_input.PointerPosition());
         }
 
         private void CompleteDrawInput()

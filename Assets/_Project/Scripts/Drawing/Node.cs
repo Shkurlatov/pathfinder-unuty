@@ -11,7 +11,7 @@ namespace GraphPathfinder.Drawing
         public List<Connection> Connections { get; private set; }
         public NodeState State { get; private set; }
 
-        public event Action<NodeState> OnStateChanged;
+        public event Action<NodeState> OnNodeChanged;
 
         public Node(int number, Vector2 position)
         {
@@ -34,7 +34,7 @@ namespace GraphPathfinder.Drawing
             }
 
             State = NodeState.Connected;
-            OnStateChanged?.Invoke(State);
+            OnNodeChanged?.Invoke(State);
 
             foreach (Connection connection in Connections)
             {
@@ -55,19 +55,19 @@ namespace GraphPathfinder.Drawing
         public void Pick()
         {
             State = NodeState.Picked;
-            OnStateChanged?.Invoke(State);
+            OnNodeChanged?.Invoke(State);
         }
 
         public void Skip()
         {
             State = NodeState.Connected;
-            OnStateChanged?.Invoke(State);
+            OnNodeChanged?.Invoke(State);
         }
 
         public void Destroy()
         {
             State = NodeState.Destroyed;
-            OnStateChanged?.Invoke(State);
+            OnNodeChanged?.Invoke(State);
         }
     }
 

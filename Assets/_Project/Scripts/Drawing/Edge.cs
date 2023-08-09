@@ -1,62 +1,62 @@
-using TMPro;
+using System;
 using UnityEngine;
 
 namespace GraphPathfinder.Drawing
 {
-    public class Edge : MonoBehaviour
+    public class Edge
     {
-        [SerializeField] private LineRenderer _renderer;
-        [SerializeField] private GameObject _distanceMarker;
-        [SerializeField] private TextMeshProUGUI _markerText;
-
-        [SerializeField] private Material _darkMaterial;
-        [SerializeField] private Material _lightMaterial;
-
-        public Node StartNode;
-        public Node EndNode;
-
+        public Vector2 StartPosition { get; private set; }
+        public Vector2 EndPosition { get; private set; }
         public int RelativeDistance { get; private set; }
+        public EdgeState State { get; private set; }
 
-        public void SetPosition(Vector2 position, int point)
+        public event Action<EdgeState> OnEdgeChanged;
+
+        public Edge(Node startNode)
         {
-            _renderer.SetPosition(point, position);
+            StartPosition = startNode.Position;
+            State = EdgeState.NotComplete;
         }
 
-        public void Complete(Node endNode)
+        public void SetEndPosition(Vector2 endPosition)
         {
-            EndNode = endNode;
-            RelativeDistance = (int)(Vector2.Distance(StartNode.Position, EndNode.Position) * 10);
-
-            SetPosition(EndNode.Position, 1);
-
-            ActivateDistanceMarker();
+            EndPosition = endPosition;
+            OnEdgeChanged?.Invoke(State);
         }
 
-        private void ActivateDistanceMarker()
+        public void Complete()
         {
-            Vector2 markerPosition = StartNode.Position + ((EndNode.Position - StartNode.Position) / 2);
+            RelativeDistance = (int)(Vector2.Distance(StartPosition, EndPosition) * 10);
 
-            _markerText.text = ((float)RelativeDistance / 10).ToString();
-            _distanceMarker.transform.position = markerPosition;
-
-            _distanceMarker.SetActive(true);
+            State = EdgeState.Complete;
+            OnEdgeChanged?.Invoke(State);
         }
 
-        public void ToggleLight(bool turnOn)
+        public void LightUp()
         {
-            if (turnOn)
-            {
-                _renderer.material = _lightMaterial;
+            State = EdgeState.Highlighted;
+            OnEdgeChanged?.Invoke(State);
+        }
 
-                return;
-            }
-
-            _renderer.material = _darkMaterial;
+        public void Dim()
+        {
+            State = EdgeState.Dimmed;
+            OnEdgeChanged?.Invoke(State);
         }
 
         public void Destroy()
         {
-            Destroy(gameObject);
+            State = EdgeState.Destroyed;
+            OnEdgeChanged?.Invoke(State);
         }
+    }
+
+    public enum EdgeState
+    {
+        NotComplete = 0,
+        Complete = 1,
+        Highlighted = 2,
+        Dimmed = 3,
+        Destroyed = 4,
     }
 }

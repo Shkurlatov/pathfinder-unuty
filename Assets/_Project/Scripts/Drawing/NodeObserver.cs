@@ -11,7 +11,7 @@ namespace GraphPathfinder.Drawing
         public void Initialize(Node node)
         {
             _model = node;
-            _model.OnStateChanged += OnStateChanged;
+            _model.OnNodeChanged += OnNodeChanged;
 
             _view.SetNodeText((_model.Number + 1).ToString());
 
@@ -23,10 +23,10 @@ namespace GraphPathfinder.Drawing
 
         private void OnDisable()
         {
-            _model.OnStateChanged -= OnStateChanged;
+            _model.OnNodeChanged -= OnNodeChanged;
         }
 
-        private void OnStateChanged(NodeState state)
+        private void OnNodeChanged(NodeState state)
         {
             switch (state)
             {

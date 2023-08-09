@@ -94,14 +94,14 @@ namespace GraphPathfinder.Pathfinding
 
                 Connection connection = currentNode.Connections.Find(x => x.ConnectedNode.Number == previousNumber);
                 connection.ConnectedNode.Pick();
-                connection.Edge.ToggleLight(true);
+                connection.Edge.LightUp();
                 _pathConnections.Add(connection);
 
                 currentNode = connection.ConnectedNode;
             }
 
             Connection lastConnection = currentNode.Connections.Find(x => x.ConnectedNode == _sourceNode);
-            lastConnection.Edge.ToggleLight(true);
+            lastConnection.Edge.LightUp();
             _pathConnections.Add(lastConnection);
         }
 
@@ -110,7 +110,7 @@ namespace GraphPathfinder.Pathfinding
             foreach (Connection connection in _pathConnections)
             {
                 connection.ConnectedNode.Skip();
-                connection.Edge.ToggleLight(false);
+                connection.Edge.Dim();
             }
 
             _destinationNode.Skip();

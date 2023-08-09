@@ -5,29 +5,31 @@ namespace GraphPathfinder.Drawing
 {
     public class EdgesHandler
     {
-        private readonly Edge _edgePrefab;
+        private readonly EdgeObserver _edgePrefab;
         private readonly List<Edge> _edges;
         private readonly Transform _edgesSceneContainer;
 
-        public EdgesHandler(Edge nodePrefab)
+        public EdgesHandler(EdgeObserver edgePrefab)
         {
-            _edgePrefab = nodePrefab;
+            _edgePrefab = edgePrefab;
             _edges = new List<Edge>();
             _edgesSceneContainer = new GameObject("Edges").transform;
         }
 
         public Edge InstantiateEdge(Node startNode)
         {
-            Edge edge = Object.Instantiate(_edgePrefab, _edgesSceneContainer);
-            edge.SetPosition(startNode.Position, 0);
-            edge.StartNode = startNode;
+            Edge edge = new Edge(startNode);
+
+            EdgeObserver edgeObserver = Object.Instantiate(_edgePrefab, _edgesSceneContainer);
+            edgeObserver.Initialize(edge);
 
             return edge;
         }
 
         public void CompleteEdge(Edge edge, Node endNode)
         {
-            edge.Complete(endNode);
+            edge.SetEndPosition(endNode.Position);
+            edge.Complete();
 
             _edges.Add(edge);
         }

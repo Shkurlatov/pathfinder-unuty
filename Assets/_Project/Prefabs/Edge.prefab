@@ -9,7 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4751246894422902154}
-  - component: {fileID: -3833995588864658287}
+  - component: {fileID: 6034680310991818932}
+  - component: {fileID: 9173523898110343793}
   - component: {fileID: 4751246894422902197}
   m_Layer: 0
   m_Name: Edge
@@ -34,7 +35,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-3833995588864658287
+--- !u!114 &6034680310991818932
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,16 +44,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 4751246894422902196}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55d1a0927e03e534483e6cdf12426da2, type: 3}
+  m_Script: {fileID: 11500000, guid: 8a699aaefd7ef4441b724671e1bf9940, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _renderer: {fileID: 4751246894422902197}
+  _view: {fileID: 9173523898110343793}
+--- !u!114 &9173523898110343793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4751246894422902196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 769c5758dd126164b89d8dd4b6b2af68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lineRenderer: {fileID: 4751246894422902197}
   _distanceMarker: {fileID: 6680158536017499127}
   _markerText: {fileID: 3353904150231353334}
   _darkMaterial: {fileID: 2100000, guid: b0e7a8912c785194a9cff6f9422aae72, type: 2}
   _lightMaterial: {fileID: 2100000, guid: a61fb2422bad54848994b5cb1f28ab36, type: 2}
-  StartNode: {fileID: 0}
-  EndNode: {fileID: 0}
 --- !u!120 &4751246894422902197
 LineRenderer:
   m_ObjectHideFlags: 0

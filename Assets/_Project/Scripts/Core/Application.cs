@@ -9,7 +9,7 @@ namespace GraphPathfinder.Core
     {
         [SerializeField] private UIRoot _uiRootPrefab;
         [SerializeField] private NodeObserver _nodePrefab;
-        [SerializeField] private Edge _edgePrefab;
+        [SerializeField] private EdgeObserver _edgePrefab;
 
         [SerializeField] private Material _blueSkybox;
         [SerializeField] private Material _orangeSkybox;
